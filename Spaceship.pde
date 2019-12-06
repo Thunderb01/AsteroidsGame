@@ -4,23 +4,11 @@ class Spaceship extends Floater
    
    
    
-    corners = 11;
-    xCorners = new int[corners];
-    yCorners = new int[corners];
-    int myYcorner;
-    int myXcorner;
-   
-    myXcorner = -10;
-    for (int i = 0; i < (int)(corners/2); i++){
-        
-      myXcorner+=3*i;
-      myYcorner = (int)(Math.random()*10);
-        
-      xCorners[i]=myXcorner;
-      xCorners[corners-i-1]=myXcorner;
-      yCorners[i]=myYcorner;
-      yCorners[corners-i-1]=-myYcorner;
-    }
+    int n = 2;
+    corners = 16;
+    xCorners = new int[]{-10*n,-7*n,-3*n,3*n,5*n,10*n,10*n,2*n,2*n,10*n,10*n,5*n,3*n,-1*n,-7*n,-10*n};
+    yCorners = new int[]{3*n,6*n,8*n,8*n,7*n,4*n,2*n,2*n,-2*n,-2*n,-4*n,-7*n,-8*n,-8*n,-6*n,-3*n};
+    
     myColor = color(255,255,255);
     myPointDirection = 0;
     myCenterX = 500;
@@ -59,10 +47,11 @@ class Spaceship extends Floater
     int col = 255;
     translate((float)myCenterX, (float)myCenterY);
     rotate(orientation+dRadians);
-    for(int i = 0; i < 5; i++){
+    int j = 10;
+    for(int i = 0; i < 7; i++){
       fill(col,0,0);
-      ellipse((float)fireX, (float)fireY, 10,10);
-      
+      ellipse((float)fireX-5, (float)fireY, j,j);
+      j--;
       
       fireX-=5;
       col-=50;

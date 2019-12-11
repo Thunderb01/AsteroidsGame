@@ -7,7 +7,7 @@ boolean dOn = false;
 boolean sOn = false;
 boolean jOn = false;
 boolean bulletLimit = false;
-int limit = 30;
+int limit = 1;
 Star [] stars;
 int g = 30;
 int add = 1;
@@ -96,22 +96,22 @@ public void draw()
   } else if(pewpew.size()<limit){
     bulletLimit = false;
   }
-  if(jOn==true){
+  if(jOn==true&&bulletLimit == false){
     pewpew.add(new Bullet(hero.getCenterX(),hero.getCenterY(),hero.getDirectionX(), hero.getDirectionY(), hero.getPointDirection()));
-    pewpew.get(pewpewCount).accelerate(.1);
+    
   }
   
   
   for(int i = 0; i < pewpew.size(); i++){
-    if(pewpew.get(i).getReady()==true){
-      pewpew.get(i).show();
-      
-      pewpew.get(i).move();
-      if(pewpew.get(i).getCenterX()>=1000||pewpew.get(i).getCenterX()<=00||pewpew.get(i).getCenterY()<=00||pewpew.get(i).getCenterY()>=1000){
-        pewpew.remove(i);
-        pewpewCount--;
-      }
+    
+    pewpew.get(i).show();
+    
+    pewpew.get(i).move();
+    if(pewpew.get(i).getCenterX()>=1000||pewpew.get(i).getCenterX()<=00||pewpew.get(i).getCenterY()<=00||pewpew.get(i).getCenterY()>=1000){
+      pewpew.remove(i);
+      pewpewCount--;
     }
+    
   }
   for(int i = 0; i < joe.size(); i++){
     if(isCollision(joe.get(i).getCenterX(), joe.get(i).getCenterY(), hero.getCenterX(),hero.getCenterY())){
@@ -131,10 +131,10 @@ public void draw()
       if(isCollision(joe.get(i).getCenterX(), joe.get(i).getCenterY(), pewpew.get(j).getCenterX(), pewpew.get(j).getCenterY())==true){
         joe.remove(i);
         if(i>0){
-          i--;
+          i=0;
         }
         if(j>0){
-          j--;
+          j=0;
         }
         
       }
@@ -143,6 +143,7 @@ public void draw()
         frameRate(g);
         makeAsteroid(10+add);
         add+=2;
+        limit++;
       }  
       
     }
@@ -193,7 +194,7 @@ public void keyReleased(){
   }
   if(key == 'j' || key == 'J'){
     
-    pewpew.get(pewpewCount).setReady();
+    
 
     jOn = false;
   }

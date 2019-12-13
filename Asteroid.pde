@@ -7,12 +7,8 @@ class Asteroid extends Floater
     yCorners = new int[]{-16,-16,-8,8,16,16,8,-8,-16};
     myCenterX = (double)(Math.random()*1000);
     myCenterY = (double)(Math.random()*1000);
-    //for(int i = 0; i < corners; i++){
-    //  xCorners[i] = (int)(Math.random()*30)-15;
-    //  yCorners[i] = (int)(Math.random()*30)-15;
-      
-    //}
-    myColor = color((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255));
+    
+    myColor = color(169,169,169);
     myPointDirection = (double)(Math.random()*360);
     rotation = (int)(Math.random()*20);
   }

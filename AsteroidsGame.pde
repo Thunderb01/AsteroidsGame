@@ -7,15 +7,17 @@ boolean dOn = false;
 boolean sOn = false;
 boolean jOn = false;
 boolean bulletLimit = false;
-int limit = 1;
+int limit = 5;
 Star [] stars;
 int g = 30;
 int add = 1;
 int lives = 3;
 int dashes = 1;
 int pewpewCount = 0;
-ArrayList <Asteroid> joe = new ArrayList <Asteroid>();
+ArrayList <Asteroid> rocks = new ArrayList <Asteroid>();
 ArrayList <Bullet> pewpew = new ArrayList <Bullet>();
+ArrayList <HealthPack> heal = new ArrayList <HealthPack>();
+int level = 1;
 
 public void setup() 
 {
@@ -27,21 +29,35 @@ public void setup()
   for(int i = 0; i< stars.length; i++){
     stars[i] = new Star((int)(Math.random()*1000),(int)(Math.random()*1000));
   }
-  hero = new Spaceship();
-  
+  hero = new Spaceship();  
   makeAsteroid(10);
-  
-  
 }
 public void draw() 
 {
-  //your code here
   background(0);
+  //your code here
+  textSize(10);
+  textAlign(RIGHT);
+  fill(255,255,255);
+  
+  text("Level:" + level,50,30,100);
+  
+  if(frameCount%300==0){
+    heal.add(new HealthPack());
+  }  
+  for(int i = 0; i < heal.size(); i++){
+    heal.get(i).show();
+    if(isCollision(heal.get(i).getCenterX(),heal.get(i).getCenterY(),hero.getCenterX(),hero.getCenterY())&&lives<3){
+      lives++;
+      heal.remove(i);
+    }
+  
+  }
   
   for(int i = 0; i < stars.length; i++){
     stars[i].show();
   }
-  if(frameCount%150==0){
+  if(frameCount%300==0){
     if(dashes <3){
       dashes++;
     }
@@ -86,10 +102,10 @@ public void draw()
   }
   hero.show();
   hero.move();
-  for(int i =0; i < joe.size(); i ++){
-    joe.get(i).turn(joe.get(i).rotation);
-    joe.get(i).show();
-    joe.get(i).move();
+  for(int i =0; i < rocks.size(); i ++){
+    rocks.get(i).turn(rocks.get(i).rotation);
+    rocks.get(i).show();
+    rocks.get(i).move();
   }
   if(pewpew.size()>=limit){
     bulletLimit = true;
@@ -113,9 +129,9 @@ public void draw()
     }
     
   }
-  for(int i = 0; i < joe.size(); i++){
-    if(isCollision(joe.get(i).getCenterX(), joe.get(i).getCenterY(), hero.getCenterX(),hero.getCenterY())){
-      joe.remove(i);
+  for(int i = 0; i < rocks.size(); i++){
+    if(isCollision(rocks.get(i).getCenterX(), rocks.get(i).getCenterY(), hero.getCenterX(),hero.getCenterY())){
+      rocks.remove(i);
       lives--;
       if (lives==0){
         textSize(100);
@@ -128,8 +144,9 @@ public void draw()
     }
     for(int j = 0; j < pewpew.size(); j++){
       
-      if(isCollision(joe.get(i).getCenterX(), joe.get(i).getCenterY(), pewpew.get(j).getCenterX(), pewpew.get(j).getCenterY())==true){
-        joe.remove(i);
+      if(isCollision(rocks.get(i).getCenterX(), rocks.get(i).getCenterY(), pewpew.get(j).getCenterX(), pewpew.get(j).getCenterY())==true){
+        rocks.remove(i);
+        pewpew.remove(j);
         if(i>0){
           i=0;
         }
@@ -138,12 +155,13 @@ public void draw()
         }
         
       }
-      if(joe.size()==0){
+      if(rocks.size()==0){
         g+=10;
         frameRate(g);
         makeAsteroid(10+add);
         add+=2;
         limit++;
+        level++;
       }  
       
     }
@@ -193,9 +211,6 @@ public void keyReleased(){
     sOn = false;
   }
   if(key == 'j' || key == 'J'){
-    
-    
-
     jOn = false;
   }
   
@@ -210,7 +225,7 @@ public boolean isCollision(double xa, double ya, double xb, double yb){
 }
 public void makeAsteroid(int j){
   for(int i = 0; i< j; i++){
-    joe.add(new Asteroid());
-    joe.get(i).accelerate((double)(Math.random()*7));
+    rocks.add(new Asteroid());
+    rocks.get(i).accelerate((double)(Math.random()*7));
   }
 }
